@@ -1,0 +1,112 @@
+
+.loans-page {
+  padding: 30px;
+  color: #263248;
+}
+
+.page-heading {
+  margin-bottom: 25px;
+
+  h1 { margin: 0 0 8px; font-size: 28px; }
+  p { margin: 0; color: #8490a3; }
+}
+
+.issue-card, .loan-card {
+  background: white;
+  padding: 24px;
+  border-radius: 13px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+}
+
+.issue-card h2, .section-heading h2 {
+  font-size: 19px;
+  margin: 0 0 20px;
+}
+
+.issue-card form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: end;
+}
+
+.issue-card label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.issue-card input, .issue-card select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #dce2ec;
+  border-radius: 7px;
+  background: white;
+}
+
+button {
+  border: 0;
+  padding: 11px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-btn { background: #5269d8; color: white; }
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+
+  span { color: #8490a3; font-size: 13px; }
+}
+
+.table-wrapper { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th, td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  th { color: #8490a3; }
+  td { color: #526078; }
+}
+
+.status {
+  background: #fff0df;
+  color: #b76b14;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.status.returned {
+  background: #e5f8ed;
+  color: #16834a;
+}
+
+.return-btn { background: #e7efff; color: #3458b4; }
+.empty { text-align: center; padding: 30px; color: #8490a3; }
+
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.success { background: #e5f8ed; color: #16834a; }
+.error { background: #ffe8e8; color: #c33; }
+
+@media (max-width: 850px) {
+  .issue-card form { grid-template-columns: 1fr; }
+  .loans-page { padding: 18px; }
+}

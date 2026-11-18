@@ -1,0 +1,96 @@
+
+<div class="loans-page">
+  <div class="page-heading">
+    <div>
+      <h1>Issue & Return Books</h1>
+      <p>Manage borrowing transactions</p>
+    </div>
+  </div>
+
+  <div class="alert success" *ngIf="message">{{ message }}</div>
+  <div class="alert error" *ngIf="error">{{ error }}</div>
+
+  <section class="issue-card">
+    <h2>Issue a Book</h2>
+    <form (ngSubmit)="issueBook()">
+      <div>
+        <label>Select Book</label>
+        <select name="book" [(ngModel)]="selectedBookId" required>
+          <option [ngValue]="0">Choose a book</option>
+          <option *ngFor="let book of books"
+            [ngValue]="book.id"
+            [disabled]="book.availableCopies < 1">
+            {{ book.title }} ({{ book.availableCopies }} available)
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label>Select Member</label>
+        <select name="member" [(ngModel)]="selectedMemberId" required>
+          <option [ngValue]="0">Choose a member</option>
+          <option *ngFor="let member of members"
+            [ngValue]="member.id">
+            {{ member.name }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label>Due Date</label>
+        <input type="date" name="dueDate" [(ngModel)]="dueDate" required>
+      </div>
+
+      <button type="submit" class="primary-btn">Issue Book</button>
+    </form>
+  </section>
+
+  <section class="loan-card">
+    <div class="section-heading">
+      <h2>Borrowing Records</h2>
+      <span>{{ loans.length }} records</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Loan ID</th>
+            <th>Book ID</th>
+            <th>Member ID</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loan of loans">
+            <td>#{{ loan.id }}</td>
+            <td>{{ loan.bookId }}</td>
+            <td>{{ loan.memberId }}</td>
+            <td>{{ loan.issueDate | date:'mediumDate' }}</td>
+            <td>{{ loan.dueDate | date:'mediumDate' }}</td>
+            <td>
+              <span class="status"
+                [class.returned]="loan.status === 'Returned'">
+                {{ loan.status }}
+              </span>
+            </td>
+            <td>
+              <button *ngIf="loan.status === 'Issued'"
+                class="return-btn" (click)="returnBook(loan.id!)">
+                Return
+              </button>
+              <span *ngIf="loan.status === 'Returned'">Completed</span>
+            </td>
+          </tr>
+
+          <tr *ngIf="loans.length === 0">
+            <td colspan="7" class="empty">No borrowing records yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

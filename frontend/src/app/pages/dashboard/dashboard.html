@@ -1,0 +1,181 @@
+
+<div class="dashboard">
+
+  <div class="alert error" *ngIf="error">{{ error }}</div>
+
+  <!-- Welcome header -->
+  <header class="page-heading">
+    <div class="heading-content">
+      <span class="eyebrow">LIBRARY OVERVIEW</span>
+      <h1>Dashboard</h1>
+      <p>Welcome back! Here's what's happening in your library today.</p>
+    </div>
+
+    <div class="heading-actions">
+      <div class="date-card">
+        <span class="date-icon">📅</span>
+        <span>{{ today | date:'EEEE, d MMMM yyyy' }}</span>
+      </div>
+      
+    </div>
+  </header>
+
+  <!-- Statistics -->
+  <section class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-top">
+        <div class="stat-icon" [ngClass]="stat.color">{{ stat.icon }}</div>
+        <span class="stat-label">{{ stat.title }}</span>
+      </div>
+      <div class="stat-bottom">
+        <h2>{{ stat.value }}</h2>
+        <span class="stat-caption">Current overview</span>
+      </div>
+    </div>
+  </section>
+
+<!-- Analytics section -->
+
+<section class="analytics-grid">
+
+  <!-- Book Availability -->
+  <div class="chart-card">
+    <div class="chart-heading">
+      <div>
+        <span class="eyebrow">INVENTORY OVERVIEW</span>
+        <h2>Book Availability</h2>
+        <p>Available and issued copies</p>
+      </div>
+      <span class="chart-icon">📚</span>
+    </div>
+
+    <div class="availability-list">
+      <div class="availability-item" *ngFor="let item of availabilityChart">
+        <div class="category-info">
+          <span>{{ item.label }}</span>
+          <strong>{{ item.count }}</strong>
+        </div>
+        <div class="category-track">
+          <div class="availability-fill"
+               [ngClass]="item.color"
+               [style.width.%]="item.percentage">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Borrowing Status -->
+  <div class="chart-card">
+    <div class="chart-heading">
+      <div>
+        <span class="eyebrow">LOAN ANALYTICS</span>
+        <h2>Borrowing Status</h2>
+        <p>Overview of borrowing transactions</p>
+      </div>
+      <span class="chart-icon">📊</span>
+    </div>
+
+    <div class="borrowing-list">
+      <div class="borrowing-item" *ngFor="let item of borrowingChart">
+        <div class="category-info">
+          <span>{{ item.label }}</span>
+          <strong>{{ item.count }}</strong>
+        </div>
+        <div class="category-track">
+          <div class="borrowing-fill"
+               [ngClass]="item.color"
+               [style.width.%]="item.percentage">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="borrowing-total">
+      <span>Total transactions</span>
+      <strong>{{ borrowingChart[0].count + borrowingChart[1].count + borrowingChart[2].count }}</strong>
+    </div>
+  </div>
+
+  <!-- Books by Category -->
+  <div class="chart-card">
+    <div class="chart-heading">
+      <div>
+        <span class="eyebrow">COLLECTION INSIGHTS</span>
+        <h2>Books by Category</h2>
+        <p>Distribution of your book collection</p>
+      </div>
+      <span class="chart-icon">📚</span>
+    </div>
+
+    <div class="category-list" *ngIf="categoryChart.length > 0; else noCategories">
+      <div class="category-item" *ngFor="let item of categoryChart">
+        <div class="category-info">
+          <span>{{ item.name }}</span>
+          <strong>{{ item.count }} <small>({{ item.percentage }}%)</small></strong>
+        </div>
+        <div class="category-track">
+          <div class="category-fill" [style.width.%]="item.percentage"></div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCategories>
+      <div class="chart-empty">No book categories available yet.</div>
+    </ng-template>
+  </div>
+
+</section>
+
+
+
+  <!-- Recent activity -->
+  <section class="activity-section">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">TRANSACTION LOG</span>
+        <h2>Recent Activity</h2>
+        <p>Keep track of the latest book issues and returns.</p>
+      </div>
+      <a routerLink="/history" class="view-all">View all activity <span>→</span></a>
+    </div>
+
+    <div class="table-wrapper" *ngIf="activities.length > 0; else emptyActivity">
+      <table>
+        <thead>
+          <tr>
+            <th>BOOK</th>
+            <th>MEMBER</th>
+            <th>ACTIVITY</th>
+            <th>DATE</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of activities">
+            <td class="book-name">{{ item.title }}</td>
+            <td>{{ item.member }}</td>
+            <td>{{ item.action }}</td>
+            <td>{{ item.date | date:'mediumDate' }}</td>
+            <td>
+              <span class="status" [ngClass]="item.status.toLowerCase()">
+                <span class="status-dot"></span>
+                {{ item.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyActivity>
+      <div class="empty-state">
+        <div class="empty-icon">📚</div>
+        <h3>No recent activity</h3>
+        <p>Book issues and returns will appear here.</p>
+        <a routerLink="/loans">Go to Issue & Return →</a>
+      </div>
+    </ng-template>
+  </section>
+
+</div>

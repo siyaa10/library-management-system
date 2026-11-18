@@ -1,0 +1,66 @@
+
+<div class="history-page">
+  <div class="page-heading">
+    <div>
+      <h1>Borrowing History</h1>
+      <p>View all book borrowing and return records</p>
+    </div>
+  </div>
+
+  <div class="alert error" *ngIf="error">{{ error }}</div>
+
+  <div class="toolbar">
+    <input type="text"
+      placeholder="Search by loan, book or member ID..."
+      [(ngModel)]="searchText">
+
+    <select [(ngModel)]="selectedStatus">
+      <option value="All">All Statuses</option>
+      <option value="Issued">Issued</option>
+      <option value="Returned">Returned</option>
+    </select>
+  </div>
+
+  <div class="history-card">
+    <div class="card-heading">
+      <h2>Transaction Records</h2>
+      <span>{{ filteredLoans.length }} records</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Loan ID</th>
+            <th>Book ID</th>
+            <th>Member ID</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loan of filteredLoans">
+            <td>#{{ loan.id }}</td>
+            <td>{{ loan.bookId }}</td>
+            <td>{{ loan.memberId }}</td>
+            <td>{{ loan.issueDate | date:'mediumDate' }}</td>
+            <td>{{ loan.dueDate | date:'mediumDate' }}</td>
+            <td>{{ loan.returnedAt ? (loan.returnedAt | date:'mediumDate') : '—' }}</td>
+            <td>
+              <span class="status"
+                [class.returned]="loan.status === 'Returned'">
+                {{ loan.status }}
+              </span>
+            </td>
+          </tr>
+
+          <tr *ngIf="filteredLoans.length === 0">
+            <td colspan="7" class="empty">No borrowing records found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

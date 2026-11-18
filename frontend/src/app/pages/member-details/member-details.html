@@ -1,0 +1,46 @@
+<div class="details-page">
+  <button class="back-btn" (click)="goBack()">← Back to Members</button>
+
+  <div *ngIf="loading">Loading member details...</div>
+
+  <div *ngIf="!loading && !member">
+    <h2>Member not found</h2>
+  </div>
+
+  <div *ngIf="member">
+    <h2>{{ member.name }}</h2>
+
+    <p><strong>Email:</strong> {{ member.email || '-' }}</p>
+    <p><strong>Phone:</strong> {{ member.phone }}</p>
+    <p><strong>Address:</strong> {{ member.address }}</p>
+    <p><strong>Membership Type:</strong> {{ member.membershipType }}</p>
+    <p><strong>Membership Date:</strong> {{ member.membershipDate | date:'mediumDate' }}</p>
+    <p><strong>Membership Status:</strong> {{ member.membershipStatus }}</p>
+
+    <h3>Borrowing History</h3>
+
+    <p *ngIf="history.length === 0">No borrowing history available.</p>
+
+    <table *ngIf="history.length > 0">
+      <thead>
+        <tr>
+          <th>Book ID</th>
+          <th>Issue Date</th>
+          <th>Due Date</th>
+          <th>Return Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let loan of history">
+          <td>{{ loan.bookId }}</td>
+          <td>{{ loan.issueDate | date:'mediumDate' }}</td>
+          <td>{{ loan.dueDate | date:'mediumDate' }}</td>
+          <td>{{ loan.returnedAt ? (loan.returnedAt | date:'mediumDate') : '-' }}</td>
+          <td>{{ loan.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

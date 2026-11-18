@@ -1,0 +1,177 @@
+
+<div class="books-page">
+  <div class="page-heading">
+    <div>
+      <h1>Book Management</h1>
+      <p>Manage your library collection</p>
+    </div>
+    <button class="primary-btn" (click)="openAddForm()">+ Add New Book</button>
+  </div>
+
+  <div class="alert success" *ngIf="message">{{ message }}</div>
+  <div class="alert error" *ngIf="error">{{ error }}</div>
+
+  <div class="toolbar">
+  <input
+    type="text"
+    placeholder="Search by title, author or ISBN..."
+    [(ngModel)]="searchText">
+
+  <select [(ngModel)]="selectedCategory">
+    <option value="">All Categories</option>
+    <option *ngFor="let category of categories" [value]="category">
+      {{ category }}
+    </option>
+  </select>
+
+  <select [(ngModel)]="sortBy">
+    <option value="title">Sort by Title</option>
+    <option value="author">Sort by Author</option>
+    <option value="category">Sort by Category</option>
+    <option value="availability">Sort by Availability</option>
+  </select>
+</div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <h2>All Books</h2>
+      <span>{{ filteredBooks.length }} books found</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Book</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>ISBN</th>
+            <th>Total Copies</th>
+            <th>Available</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of filteredBooks">
+            <td><strong>{{ book.title }}</strong></td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.category }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.totalCopies }}</td>
+            <td>
+              <span class="availability"
+                [class.unavailable]="book.availableCopies === 0">
+                {{ book.availableCopies }}
+              </span>
+            </td>
+            <td class="actions">
+  <button class="view-btn" (click)="viewBook(book.id!)">View</button>
+  <button class="edit-btn" (click)="openEditForm(book)">Edit</button>
+  <button class="delete-btn" (click)="deleteBook(book.id!)">Delete</button>
+</td>
+          </tr>
+
+          <tr *ngIf="filteredBooks.length === 0">
+            <td colspan="7" class="empty">
+              No books found. Add your first book!
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showForm">
+    <div class="modal">
+      <div class="modal-heading">
+        <h2>{{ editingId ? 'Edit Book' : 'Add New Book' }}</h2>
+        <button class="close-btn" (click)="closeForm()">×</button>
+      </div>
+
+      
+<form (ngSubmit)="saveBook()" #bookForm="ngForm" novalidate>
+
+  <div class="alert error" *ngIf="bookForm.submitted && bookForm.invalid">
+  Please complete all required fields correctly.
+</div>
+
+  <label>Book Title *</label>
+  <input
+    name="title"
+    [(ngModel)]="form.title"
+    (ngModelChange)="clearValidationError()"
+    required
+    #title="ngModel"
+    [class.invalid-field]="bookForm.submitted && title.invalid">
+  <small class="field-error" *ngIf="bookForm.submitted && title.invalid">
+    Book title is required.
+  </small>
+
+  <label>Author *</label>
+  <input
+    name="author"
+    [(ngModel)]="form.author"
+    required
+    #author="ngModel"
+    [class.invalid-field]="bookForm.submitted && author.invalid">
+  <small class="field-error" *ngIf="bookForm.submitted && author.invalid">
+    Author is required.
+  </small>
+
+  <label>Category *</label>
+  <input
+    name="category"
+    [(ngModel)]="form.category"
+    required
+    #category="ngModel"
+    [class.invalid-field]="bookForm.submitted && category.invalid">
+  <small class="field-error" *ngIf="bookForm.submitted && category.invalid">
+    Category is required.
+  </small>
+
+  <label>ISBN *</label>
+  <input
+    name="isbn"
+    [(ngModel)]="form.isbn"
+    required
+    #isbn="ngModel"
+    [class.invalid-field]="bookForm.submitted && isbn.invalid">
+  <small class="field-error" *ngIf="bookForm.submitted && isbn.invalid">
+    ISBN is required.
+  </small>
+
+  <label>Total Copies *</label>
+  <input
+    type="number"
+    name="totalCopies"
+    [(ngModel)]="form.totalCopies"
+    min="1"
+    required
+    #totalCopies="ngModel"
+    [class.invalid-field]="bookForm.submitted && totalCopies.invalid">
+  <small class="field-error" *ngIf="bookForm.submitted && totalCopies.invalid">
+    Enter at least 1 copy.
+  </small>
+
+  <label>Description</label>
+  <textarea
+    name="description"
+    [(ngModel)]="form.description"
+    rows="3">
+  </textarea>
+
+  <div class="form-actions">
+    <button type="button" class="cancel-btn" (click)="closeForm()">
+      Cancel
+    </button>
+
+    <button type="submit" class="primary-btn">
+      {{ editingId ? 'Save Changes' : 'Add Book' }}
+    </button>
+  </div>
+
+</form>
+
+    </div>
+  </div>
+</div>

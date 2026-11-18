@@ -1,0 +1,100 @@
+
+<div class="members-page">
+  <div class="page-heading">
+    <div>
+      <h1>Member Management</h1>
+      <p>Manage library members and their information</p>
+    </div>
+    <button class="primary-btn" (click)="openAddForm()">+ Add New Member</button>
+  </div>
+
+  <div class="alert success" *ngIf="message">{{ message }}</div>
+  <div class="alert error" *ngIf="error">{{ error }}</div>
+
+  <div class="toolbar">
+    <input type="text" placeholder="Search by name, email or phone..."
+      [(ngModel)]="searchText">
+  </div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <h2>All Members</h2>
+      <span>{{ filteredMembers.length }} members found</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Membership</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of filteredMembers">
+            <td><strong>{{ member.name }}</strong></td>
+            <td>{{ member.email || '—' }}</td>
+            <td>{{ member.phone }}</td>
+            <td>{{ member.address || '—' }}</td>
+            <td>{{ member.membershipType }}</td>
+            <td>
+              <span class="status">{{ member.membershipStatus || 'Active' }}</span>
+            </td>
+            <td class="actions">
+  <button class="view-btn" (click)="viewMember(member.id!)">View</button>
+  <button class="edit-btn" (click)="openEditForm(member)">Edit</button>
+  <button class="delete-btn" (click)="deleteMember(member.id!)">Delete</button>
+</td>
+          </tr>
+
+          <tr *ngIf="filteredMembers.length === 0">
+            <td colspan="7" class="empty">No members found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showForm">
+    <div class="modal">
+      <div class="modal-heading">
+        <h2>{{ editingId ? 'Edit Member' : 'Register New Member' }}</h2>
+        <button class="close-btn" (click)="showForm = false">×</button>
+      </div>
+
+      <form (ngSubmit)="saveMember()" #memberForm="ngForm">
+        <label>Full Name *</label>
+        <input name="name" [(ngModel)]="form.name" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" [(ngModel)]="form.email">
+
+        <label>Phone Number *</label>
+        <input name="phone" [(ngModel)]="form.phone" required>
+
+        <label>Address</label>
+        <input name="address" [(ngModel)]="form.address">
+
+        <label>Membership Type</label>
+        <select name="membershipType" [(ngModel)]="form.membershipType">
+          <option value="Regular">Regular</option>
+          <option value="Premium">Premium</option>
+          <option value="Student">Student</option>
+        </select>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-btn"
+            (click)="showForm = false">Cancel</button>
+          <button type="submit" class="primary-btn" [disabled]="memberForm.invalid">
+            {{ editingId ? 'Save Changes' : 'Register Member' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+
+.books-page {
+  padding: 30px;
+  color: #263248;
+}
+
+.page-heading, .table-header, .modal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-heading {
+  margin-bottom: 25px;
+
+  h1 { margin: 0 0 8px; font-size: 28px; }
+  p { margin: 0; color: #8490a3; }
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 7px;
+  padding: 10px 15px;
+  font-weight: 600;
+}
+
+.primary-btn {
+  background: #5269d8;
+  color: white;
+}
+
+.toolbar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 22px;
+
+  input { flex: 1; }
+  input, select {
+    padding: 12px;
+    border: 1px solid #e1e6ef;
+    border-radius: 8px;
+    background: white;
+    min-width: 0;
+  }
+}
+
+.table-card {
+  background: white;
+  border-radius: 13px;
+  padding: 22px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+}
+
+.table-header {
+  margin-bottom: 18px;
+
+  h2 { font-size: 19px; margin: 0; }
+  span { color: #8490a3; font-size: 13px; }
+}
+
+.table-wrapper { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th, td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  th { color: #8490a3; }
+  td { color: #526078; }
+}
+
+.availability {
+  background: #e5f8ed;
+  color: #16834a;
+  padding: 5px 10px;
+  border-radius: 20px;
+
+  &.unavailable {
+    background: #ffe8e8;
+    color: #c33;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 7px;
+}
+
+.edit-btn { background: #e7efff; color: #3458b4; }
+.delete-btn { background: #ffe8e8; color: #c33; }
+.empty { text-align: center; padding: 35px; color: #8490a3; }
+
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.success { background: #e5f8ed; color: #16834a; }
+.error { background: #ffe8e8; color: #c33; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 25, 45, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 10;
+}
+
+.modal {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 14px;
+  padding: 25px;
+
+  form {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  label { font-size: 13px; font-weight: 600; }
+
+  input, textarea {
+    padding: 11px;
+    border: 1px solid #dce2ec;
+    border-radius: 7px;
+    font: inherit;
+  }
+}
+
+.modal-heading h2 { margin: 0; font-size: 20px; }
+.close-btn { background: transparent; font-size: 25px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+.cancel-btn { background: #edf0f5; color: #526078; }
+
+@media (max-width: 650px) {
+  .books-page { padding: 18px; }
+  .page-heading { align-items: flex-start; gap: 12px; }
+  .toolbar { flex-direction: column; }
+}
+
+.invalid-field {
+  border: 1px solid #dc2626 !important;
+  background-color: #fff5f5;
+}
+
+.field-error {
+  display: block;
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
