@@ -92,7 +92,7 @@ library-management-system/
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/siyaa10/library-management-system.git
 cd library-management-system
 ```
 
